@@ -61,9 +61,10 @@
 #     print()
 
 
-x = int(input("Enter the number"))
-result = 1
+# x = int(input("Enter the number"))
+# result = 1
 
-for i in range(1, x+1):
-    result *= i
-print("Factorial of", x, "is", result)
+# for i in range(1, x+1):
+#     result *= i
+# print("Factorial of", x, "is", result)
+
