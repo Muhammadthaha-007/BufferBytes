@@ -53,7 +53,6 @@ for row in range(rows):
     for col in range(cols):
         if row == 0:
             print(digits[col],end=" ")
-        #elif col == cols - (cols-col) and
         elif row < rows - digits[col]:
             print(" ",end=" ")
         else:
