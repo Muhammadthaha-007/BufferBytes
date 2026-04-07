@@ -37,7 +37,7 @@
 #     print()
 
 
-n = 2142
+n = int(input("Enter the digits :"))
 
 digits = []
 
@@ -53,13 +53,8 @@ for row in range(rows):
     for col in range(cols):
         if row == 0:
             print(digits[col],end=" ")
-        elif col == (cols-cols) and row in [x for x in range(1,rows-digits[0])]:
-            print(" ",end=" ")
-        elif col == 1 and row in [x for x in range(1,rows-digits[1])]:
-            print(" ",end=" ")
-        elif col == 2 and row in [x for x in range(1,rows-digits[2])]:
-            print(" ",end=" ")
-        elif col == 3 and row in [x for x in range(1,rows-digits[3])]:
+        #elif col == cols - (cols-col) and
+        elif row < rows - digits[col]:
             print(" ",end=" ")
         else:
             print("*",end=" ")
