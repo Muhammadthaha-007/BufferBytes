@@ -18,9 +18,9 @@ def encryption(s):
     if length == 43:
         n = 0
         main_list = []
-        for row in range(7):
+        for row in range(cols):
             temp = []
-            for col in range(7):
+            for col in range(cols):
                 try:
                     temp.append(removed_space[n])             
                 except IndexError:
