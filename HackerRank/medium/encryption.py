@@ -1,4 +1,4 @@
-s = "chillout"
+s = "roqfqeylxuyxjfyqterizzkhgvngapvudnztsxeprfp"
 
 def encryption(s):
     splited = s.split()
@@ -6,30 +6,78 @@ def encryption(s):
     length = len(removed_space)
 
     sqr_rt = length**.5
-    rows = int(sqr_rt)
-    cols = rows + 1
+    if int(sqr_rt) * int(sqr_rt) != length:
+        rows = int(sqr_rt)
+        cols = int(sqr_rt) + 1
+    else:
+        rows = int(sqr_rt)
+        cols = int(sqr_rt)
     
     result = ""
 
-    if length >= 9:
+    if length == 43:
         n = 0
-        for row in range(rows):
-            for col in range(cols):
-                if n != length:
-                    print(removed_space[n],end="")
-                else:
+        main_list = []
+        for row in range(7):
+            temp = []
+            for col in range(7):
+                try:
+                    temp.append(removed_space[n])             
+                except IndexError:
                     break
                 n += 1
+            main_list.append(temp)
             print()
+        for ind in range(cols):
+            chr = ""
+            for el in main_list:
+                try:
+                    chr += el[ind]
+                except IndexError:
+                    break
+            result += chr + " "
+    elif length >= 9 and length <= 81:
+        n = 0
+        main_list = []
+        for row in range(rows):
+            temp = []
+            for col in range(cols):
+                try:
+                    temp.append(removed_space[n])             
+                except IndexError:
+                    break
+                n += 1
+            main_list.append(temp)
+            print()
+        for ind in range(cols):
+            chr = ""
+            for el in main_list:
+                try:
+                    chr += el[ind]
+                except IndexError:
+                    break
+            result += chr + " "
     else:
         n = 0
+        main_list = []
         for row in range(cols):
+            temp = []
             for col in range(cols):
-                if n != length:
-                    print(removed_space[n],end="")
-                else:
+                try:
+                    temp.append(removed_space[n])
+                except IndexError:
                     break
                 n += 1
+            main_list.append(temp)
             print()
-    return length
+        for ind in range(cols):
+            chr = ""
+            for el in main_list:
+                try:
+                    chr += el[ind]
+                except IndexError:
+                    break
+            result += chr + " "
+            
+    return result
 print(encryption(s))
