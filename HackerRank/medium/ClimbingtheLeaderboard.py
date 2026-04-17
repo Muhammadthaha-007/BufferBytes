@@ -5,7 +5,7 @@ def climbingLeaderboard(ranked,player):
     for score in player:
         while length >= 0 and score >= leaderBoard[length]:
             length -= 1
-        result.append(length+1)
+        result.append(length+2)
     return result
 print(climbingLeaderboard([100,100,50,40,40,20,10],[5,25,50,120]))
 
