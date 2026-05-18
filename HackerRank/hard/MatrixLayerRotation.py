@@ -1,74 +1,81 @@
 def matrixRotation(matrix, r):
-    col = len(matrix[0])
-    row = len(matrix)
+    rows = len(matrix)
+    cols = len(matrix[0])
 
-    outer_layer = []
-    last_row = []
+    total_layers = min(rows,cols) // 2
+    layer_rings = []
 
-    inner_layer = []
-
-    for rows in range(row):
-        for colm in range(col):
-            if rows == 0 or rows == row-1:
-                if rows == row-1:
-                    last_row.insert(0,matrix[rows][colm])
-                else:
-                    outer_layer.append(matrix[rows][colm])
-            else:
-                outer_layer.append(matrix[rows][col-1])
-                break
-    outer_layer += last_row
-    for indx in range(row-2,0,-1):
-        outer_layer.append(matrix[indx][0])
-        
-    for rotation in range(r):
-        for index in range(len(outer_layer)):
-            try:
-                outer_layer[index], outer_layer[index+1] = outer_layer[index+1], outer_layer[index]
-            except IndexError:
-                break
-    for rows in range(row):
-        for colm in range(col):
-            if rows > 0 and rows < row-1:
-                if colm != 0 and colm != col-1:
-                    if rows > 1:
-                        inner_layer.insert(rows,matrix[rows][colm])
-                    else:
-                        inner_layer.append(matrix[rows][colm])
-    for rotation in range(r):
-        for ind in range(len(inner_layer)):
-            try:
-                inner_layer[ind], inner_layer[ind+1] = inner_layer[ind+1], inner_layer[ind]
-            except IndexError:
-                break
-
-    main_matrix = []
-    n = 0
-    for length in range(len(matrix)+1):
-        rows = []
-        for lgt in range(len(matrix[0])):
-            try:
-                if length > 0 and length < len(matrix)-1:
-                    rows.append(outer_layer[n])
-                    n += 1
-                    break
-                else:
-                    if length == row-1:
-                        rows.insert(0,outer_layer[n]) 
-                    else:  
-                        rows.append(outer_layer[n])
-                    n += 1
-            except IndexError:
-                break
-        main_matrix.append(rows)
-    main_matrix[len(main_matrix)-1].reverse()
-    j = 0
-    for indxx in range(1,len(main_matrix[len(main_matrix)-1])+1):
-        main_matrix[indxx].insert(0,main_matrix[len(main_matrix)-1][j])
-        j += 1
-        
-    main_matrix.pop()
+    main_matrix = [[0] * cols for x in range(rows)]
     
-    
-    return main_matrix
-print(matrixRotation([[1, 2, 3, 4], [5, 6, 7, 8],[9, 10, 11, 12],[13, 14, 15, 16]],2))
+    for layers in range(total_layers):
+        rows_a = len(matrix)
+        cols_a = len(matrix[0])
+        
+        top = []
+        for x in matrix[0]:
+            top.append(x)
+
+        right = []
+        for row in range(1,rows_a-1):
+            right.append(matrix[row][cols_a-1])
+
+        bottom = []
+        for x in reversed(matrix[rows_a-1]):
+            bottom.append(x)
+
+        left = []
+        for row in range(rows_a-2,0,-1):
+            left.append(matrix[row][0])
+
+        layer = top + right + bottom + left
+        lgt_layer = len(layer)
+
+        for rotation in range(r % lgt_layer):
+            for ind in range(lgt_layer-1):
+                layer[ind], layer[ind+1] = layer[ind+1], layer[ind]
+        
+        layer_rings.append(layer)
+        
+        del matrix[layers]
+
+        for row in range(rows_a-2):
+            matrix[row].remove(matrix[row][cols_a-1])
+            matrix[row].remove(matrix[row][0])
+   
+        del matrix[rows_a-2]
+
+
+    for lay in range(total_layers):
+        n = 0
+
+        top = lay
+        bottom = rows - 1 - lay
+        left = lay
+        right = cols - 1 - lay
+
+        try:
+            for col in range(left, right + 1): 
+                main_matrix[top][col] = layer_rings[lay][n]
+                n += 1
+
+            for row in range(top + 1, bottom):
+                main_matrix[row][right] = layer_rings[lay][n]
+                n += 1
+                
+            for col in range(right, left - 1, -1):
+                main_matrix[bottom][col] = layer_rings[lay][n]
+                n += 1
+                
+            for row in range(bottom - 1, top, -1):
+                main_matrix[row][left] = layer_rings[lay][n]
+                n += 1
+
+        except IndexError:
+            break
+                
+    for row in main_matrix:
+        for col in row:
+            print(col,end=" ")
+        print()
+    return 
+print(matrixRotation([[1, 2, 3, 4], [5,6,7,8],[9,10,11,12],[13,14,15,16]],2))
